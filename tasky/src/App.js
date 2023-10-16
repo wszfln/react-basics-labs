@@ -11,18 +11,31 @@ import Grid from '@mui/material/Grid';
 function App() {
   const [ taskState, setTaskState ] = useState({
     tasks: [
-      { id: 1, title:"Dishes", description: "Empty dishwasher", deadline: "Today", done: false },
-      { id: 2, title: "Laundry", description: "Fold clothes and put away", deadline: "Tomorrow", done: false },
-      { id: 3, title: "Tidy up", deadline: "Today", done: false },
-      { id: 4, title: "Clean", description: "sweep the floor", deadline: "Tomorrow", done: false },
-      { id: 5, title: "Cook", deadline: "Today", done: false }
+      { id: 1, title:"Dishes", description: "Empty dishwasher", deadline: "Today",priority:"low", done: false },
+      { id: 2, title: "Laundry", description: "Fold clothes and put away", deadline: "Tomorrow",priority:"medium", done: false },
+      { id: 3, title: "Tidy up", deadline: "Today",priority:"high", done: false },
+      { id: 4, title: "Clean", description: "sweep the floor", deadline: "Tomorrow",priority:"low", done: false },
+      { id: 5, title: "Cook", deadline: "Today",priority:"low", done: false }
     ]
   });
   const [ formState, setFormState ] = useState({
     title: "",
     description: "",
-    deadline: ""
+    deadline: "",
+    priority: ""
   });
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case 'low':
+        return 'green';
+      case 'medium':
+        return 'yellow';
+      case 'high':
+        return 'red';
+      default:
+        return 'default-color';
+    }
+  };
   const doneHandler = (taskIndex) => {
     const tasks = [...taskState.tasks];
     tasks[taskIndex].done = !tasks[taskIndex].done;
@@ -47,7 +60,10 @@ function App() {
       case "deadline":
           form.deadline = event.target.value;
           break;
-      default:
+      case "priority": 
+          form.priority = event.target.value;
+          break;
+          default:
           form = formState;
     }
     setFormState(form);
@@ -92,6 +108,7 @@ function App() {
           {taskState.tasks.map((task, index) => (
                 <Task 
                 title={task.title}
+                priority={task.priority}
                 description={task.description}
                 deadline={task.deadline}
                 done={task.done}
@@ -119,6 +136,6 @@ function App() {
       {/* End Footer */}
     </div>
   );
-}
+      }
 
 export default App;
